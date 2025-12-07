@@ -59,3 +59,5 @@ group :test do
 end
 
 gem "responders", "~> 3.2"
+gem 'react-rails', "~> 2.7.1"
+gem 'connection_pool', '~> 2.4'
