@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 ruby "3.3.5"
@@ -52,12 +54,18 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  # For linting ERB files
+  gem "erb_lint", require: false, git: "https://github.com/Shopify/erb-lint.git", branch: "main"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  # For code formatting and linting
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
 end
 
+gem "connection_pool", "~> 2.4"
+gem "react-rails", "~> 2.7.1"
 gem "responders", "~> 3.2"
-gem 'react-rails', "~> 2.7.1"
-gem 'connection_pool', '~> 2.4'
