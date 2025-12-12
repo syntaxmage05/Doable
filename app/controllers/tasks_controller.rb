@@ -2,13 +2,10 @@
 
 class TasksController < ApplicationController
   before_action :load_task!, only: %i[show update destroy]
+
   def index
     tasks = Task.all
     render status: :ok, json: { tasks: }
-  end
-
-  def show
-    render_json({ task: @task })
   end
 
   def create
@@ -17,8 +14,13 @@ class TasksController < ApplicationController
     render_notice(t("successfully_created"))
   end
 
+  def show
+    render_json({ task: @task.as_json(include: :assigned_user) })
+  end
+
   def update
-    @task.update!(task_params)
+    task = Task.find_by!(slug: params[:slug])
+    task.update!(task_params)
     render_notice(t("successfully_updated"))
   end
 
@@ -29,11 +31,11 @@ class TasksController < ApplicationController
 
   private
 
-    def load_task!
-      @task = Task.find_by!(slug: params[:slug])
+    def task_params
+      params.require(:task).permit(:title, :assigned_user_id)
     end
 
-    def task_params
-      params.require(:task).permit(:title)
+    def load_task!
+      @task = Task.find_by!(slug: params[:slug])
     end
 end
